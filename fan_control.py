@@ -19,7 +19,7 @@ FAN_HIGH = 100
 FAN_OFF = 0
 FAN_MAX = 100
 FAN_ON = False
-TEMP_DIFF = 5
+TEMP_DIFF = 10
 
 # Get CPU's temperature
 def getCpuTemperature():
