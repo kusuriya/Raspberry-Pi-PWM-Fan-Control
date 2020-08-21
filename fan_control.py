@@ -19,7 +19,7 @@ FAN_HIGH = 100
 FAN_OFF = 0
 FAN_MAX = 100
 FAN_ON = False
-TEMP_DIFF = 10
+TEMP_DIFF = 5
 
 # Get CPU's temperature
 def getCpuTemperature():
@@ -34,7 +34,7 @@ def setFanSpeed(speed):
     return()
 
 # Handle fan speed
-def handleFanSpeed():
+def handleFanSpeed(FAN_ON):
     temp = float(getCpuTemperature())
     # Turn off the fan if temperature is TEMP_DIFF degrees below MIN_TEMP
     if temp < MIN_TEMP:
@@ -43,7 +43,7 @@ def handleFanSpeed():
             FAN_ON = False
             #print("Fan OFF") # Uncomment for testing
         else:
-            return()
+            return(FAN_ON)
     # Set fan speed to MAXIMUM if the temperature is above MAX_TEMP
     elif temp > MAX_TEMP:
         setFanSpeed(FAN_MAX)
@@ -56,7 +56,7 @@ def handleFanSpeed():
         setFanSpeed(FAN_LOW + ( round(temp) * step ))
         FAN_ON = True
         #print(FAN_LOW + ( round(temp) * step )) # Uncomment for testing
-    return ()
+    return(FAN_ON)
 
 try:
     # Setup GPIO pin
@@ -67,7 +67,7 @@ try:
     setFanSpeed(FAN_OFF)
     # Handle fan speed every WAIT_TIME sec
     while True:
-        handleFanSpeed()
+        FAN_ON = handleFanSpeed(FAN_ON)
         time.sleep(WAIT_TIME)
 
 except KeyboardInterrupt: # trap a CTRL+C keyboard interrupt
